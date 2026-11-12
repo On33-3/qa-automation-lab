@@ -17,6 +17,22 @@ plus AI agents that automate the QA flows around them.
 | 7 | Security + `security-triage` agent | OWASP Top 10, DAST vs SAST, passive vs active scan, IDOR, dependencies | `security.yml`, agent evaluated against known Juice Shop vulnerabilities |
 | 8 | Documentation | README as a technical case study | Architecture diagram, demo GIF |
 
+## Fundamentals per module
+
+What each module builds on. Gaps here are reviewed before starting the module.
+
+| # | Module | Fundamentals |
+|---|--------|--------------|
+| 0 | Planning | Risk (impact × likelihood), test levels |
+| 1 | Git workflow | Commits as snapshots, branches, merge vs. rebase, conflicts |
+| 2 | API automation | HTTP (methods, status codes, headers, cookies), JSON, JWT, TypeScript basics, `async`/`await` |
+| 3 | UI automation | DOM, accessibility roles and labels (for locators), browser event loop |
+| 4 | CI/CD | YAML, Docker basics (image, container, ports), environment variables, secrets |
+| 5 | Flakiness + `ci-triage` agent | Race conditions, shared state; LLM basics: tokens, context, temperature, structured output |
+| 6 | Performance + `perf-analyst` agent | Percentiles, variance and noise, concurrency vs. throughput, Little's law |
+| 7 | Security + `security-triage` agent | Authentication vs. authorization, sessions, CORS, injection, CVEs, prompt injection |
+| 8 | Documentation | C4 diagrams (context, containers), writing for readers new to the project |
+
 ## How each module works
 
 1. **Plan first** — update the module plan in `docs/` before writing any code.
