@@ -9,3 +9,6 @@ reports/
 
 # Claude Code local settings (personal permissions, may contain tokens or local paths)
 .claude/settings.local.json
+
+# Learning progress (local reference only: scores and study notes never leave this machine)
+.claude/progress.local.md

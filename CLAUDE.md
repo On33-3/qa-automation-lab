@@ -29,4 +29,5 @@ security alert triage. `qa-mentor` explains concepts and runs knowledge checks w
 6. No secrets in the repo. Claude runs in CI with the `CLAUDE_CODE_OAUTH_TOKEN` secret only.
 7. No third-party proprietary material: no code, prompts, data or client names from other organizations.
 8. Technical content only: no personal data, CV material, interview notes or learning scores in this repo.
+   Learning progress lives only in `.claude/progress.local.md`, which is git-ignored and never committed.
 9. `main` is protected. Work in branches, open a PR, merge only with green checks.
