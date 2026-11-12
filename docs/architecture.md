@@ -58,6 +58,45 @@ Each guardrail exists to prevent a specific, predictable failure.
 - **Configuration over code.** Environment-specific values (URLs, thresholds, credentials for the local app)
   come from environment variables or config files, never hard-coded.
 
+## Engineering principles
+
+Checklist used in every review. Each item names the failure it prevents.
+
+### Repository and workflow
+- [ ] Conventional Commits and small, single-purpose PRs — large PRs don't get a real review.
+- [ ] PR template: plan updated, risks covered, plan vs. result, "written with AI" when it applies.
+- [ ] Secret scanning and push protection enabled — a leaked token is blocked before it is published.
+- [ ] Lockfile committed; Dependabot opens update PRs that go through CI — upstream breakage shows up as a red PR.
+- [ ] GitHub Actions pinned by commit SHA, not tag — a compromised action tag cannot inject code
+      (the `tj-actions/changed-files` incident, March 2025).
+
+### Test automation
+- [ ] One behavior per test, one reason to fail — a failing test says what broke.
+- [ ] No fixed waits; web-first assertions only — fixed waits pass locally and flake in CI.
+- [ ] Flaky tests are quarantined with an issue, not retried until green — retries can hide real race conditions.
+- [ ] Traces, screenshots and videos uploaded as CI artifacts on failure — failures are diagnosable without reproducing them.
+
+### Performance
+- [ ] Percentiles (p95, p99), never averages — an average hides the slow tail.
+- [ ] Thresholds are code and fail the run — a slow result without a threshold is just a number.
+- [ ] Error rate checked together with latency — a fast `500` is not a fast endpoint.
+- [ ] Results compared against a baseline from the same environment — shared CI runners are noisy.
+
+### Security
+- [ ] Layered checks: SAST (CodeQL), dependencies (Dependabot / `npm audit`), DAST (ZAP) — each finds what the others miss.
+- [ ] Accepted risks are documented in the ZAP rules file with a reason — nothing is silenced without a trace.
+- [ ] Authorization tested with negative cases (user A cannot read user B's data) — IDOR / broken access control.
+- [ ] Workflows default to `permissions: contents: read`; extra permissions per job only — limits the blast radius of a compromised step.
+
+### AI agents
+- [ ] Simplest thing that works: a deterministic workflow before an autonomous agent.
+- [ ] Every input is untrusted (CI logs, ZAP alerts, HTTP bodies) — prompt injection is the top LLM risk.
+- [ ] Agents are read-only, hold no secrets and write one file; only reviewed scripts publish.
+- [ ] Structured output validated against a schema; invalid output publishes nothing (fail closed).
+- [ ] Eval sets act as prompt regression tests, including tricky cases; they run on every prompt or model change.
+- [ ] Model version pinned; each run logs input, output, model and cost to `reports/`.
+- [ ] Hard limits: timeout, max tokens, max runs per PR.
+
 ## Open questions for Module 0
 
 - Which risks justify which test level (API vs. UI) for login, basket and checkout?
