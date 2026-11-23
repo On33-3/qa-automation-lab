@@ -1,0 +1,5 @@
+services:
+  juice-shop:
+    image: bkimminich/juice-shop:v20.4.0 # exact image and tag from ADR-001, never latest
+    ports:
+      - "3000:3000" # host:container (verify the container port in the image docs)
